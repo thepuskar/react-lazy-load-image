@@ -1,6 +1,10 @@
-import { useFetch } from './hooks'
+import { useRef } from 'react'
+import classnames from 'classnames'
+import { useFetch, useIntersectionObserver } from './hooks'
 
-interface IImage {
+import { ImageComponent } from './ImageComponent'
+
+export interface IImage {
   albumId: number
   id: number
   title: string
@@ -22,17 +26,7 @@ function App() {
       ) : (
         <>
           {data?.map((image: IImage, i) => (
-            <div
-              className='image-container'
-              // ref={imgRef}
-              key={image.albumId + i}
-              style={{
-                paddingBottom: `${(3024 / 4032) * 100}%`,
-                width: '100%'
-              }}
-            >
-              <img className='image thumb' src={image?.url} />
-            </div>
+            <ImageComponent key={image.id + i} {...image} />
           ))}
         </>
       )}
