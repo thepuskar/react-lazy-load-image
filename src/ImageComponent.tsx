@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import classnames from 'classnames'
 import { useIntersectionObserver } from './hooks'
 
@@ -6,8 +6,15 @@ import { IImage } from './App'
 
 export const ImageComponent = (props: IImage) => {
   const ref = useRef<HTMLDivElement | null>(null)
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
+
   const entry = useIntersectionObserver(ref, {})
+
   const isVisible = !!entry?.isIntersecting
+
+  const handleOnLoad = () => {
+    setIsLoaded(true)
+  }
 
   return (
     <div
@@ -18,18 +25,23 @@ export const ImageComponent = (props: IImage) => {
         width: '100%'
       }}
     >
-      <img
-        className={classnames('image', 'thumb', {
-          ['isLoaded']: !!isVisible
-        })}
-        src={props?.url}
-      />
-      <img
-        className={classnames('image', {
-          ['isLoaded']: !!isVisible
-        })}
-        src={props?.url}
-      />
+      {isVisible ? (
+        <>
+          <img
+            className={classnames('image', 'thumb', {
+              ['isLoaded']: !!isLoaded
+            })}
+            src={props?.url}
+          />
+          <img
+            className={classnames('image', {
+              ['isLoaded']: !!isLoaded
+            })}
+            src={props?.url}
+            onLoad={handleOnLoad}
+          />
+        </>
+      ) : null}
     </div>
   )
 }
