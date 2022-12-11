@@ -4,6 +4,13 @@ interface Args extends IntersectionObserverInit {
   freezeOnceVisible?: boolean
 }
 
+/**
+ * It returns an IntersectionObserverEntry object if the element is visible in the viewport, otherwise
+ * it returns undefined.
+ * @param elementRef - RefObject<Element>
+ * @param {Args}  - elementRef - a ref to the element you want to observe
+ * @returns The entry is being returned.
+ */
 export function useIntersectionObserver(
   elementRef: RefObject<Element>,
   {
