@@ -1,6 +1,4 @@
-import { useRef } from 'react'
-import classnames from 'classnames'
-import { useFetch, useIntersectionObserver } from './hooks'
+import { useFetch } from './hooks'
 
 import { ImageComponent } from './ImageComponent'
 
@@ -18,7 +16,8 @@ function App() {
 
   return (
     <div className='App'>
-      <h1 className='heading'>Image Lazy Loading</h1>
+      <h3 className='heading'>Image Lazy Loading</h3>
+
       {loading ? (
         <p>Loading...</p>
       ) : error ? (

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import classnames from 'classnames'
-import { useIntersectionObserver } from './hooks'
 
+import { useIntersectionObserver } from './hooks'
 import { IImage } from './App'
 
 export const ImageComponent = (props: IImage) => {

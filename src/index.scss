@@ -6,7 +6,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #343235;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,10 +26,10 @@ body {
   padding: 2rem;
 }
 
-// .heading {
-//   font-size: 1rem;
-//   font-weight: 400;
-// }
+.heading {
+  font-size: 24px;
+  font-weight: 400;
+}
 
 .image-container {
   background-color: #ccc;
