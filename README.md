@@ -4,44 +4,48 @@ Lazy Load React component using [Intersection Observer API](https://developer.mo
 
 It can be useful to lazy-loading images, implementing infinite scrolling
 
-
-
 ### Hook
 
 #### **`useIntersectionObserver.ts`**
 
-``` ts
+```ts
 import { RefObject, useEffect, useState } from 'react'
 
-interface Args extends IntersectionObserverInit {
-  freezeOnceVisible?: boolean
+const DEFAULT_ROOT_MARGIN = '0px'
+const DEFAULT_THRESHOLD = [0]
+
+interface IIntersectionObserverProperties {
+  ref?: RefObject<Element> | null
+  options?: IntersectionObserverOptions
 }
 
-/**
- * It returns an IntersectionObserverEntry object if the element is visible in the viewport, otherwise
- * it returns undefined.
- * @param elementRef - RefObject<Element>
- * @param {Args}  - elementRef - a ref to the element you want to observe
- * @returns The entry is being returned.
- */
-export function useIntersectionObserver(
-  elementRef: RefObject<Element>,
-  {
-    threshold = 0,
-    root = null,
-    rootMargin = '0%',
-    freezeOnceVisible = false
-  }: Args
-): IntersectionObserverEntry | undefined {
+interface IntersectionObserverOptions {
+  triggerOnce?: boolean
+  threshold?: number | number[]
+  root?: Element | null | undefined
+  rootMargin?: string
+}
+
+export function useIntersectionObserver({
+  ref,
+  options = {
+    threshold: DEFAULT_THRESHOLD,
+    root: null,
+    rootMargin: DEFAULT_ROOT_MARGIN,
+    triggerOnce: false
+  }
+}: IIntersectionObserverProperties): IntersectionObserverEntry | undefined {
+  const { threshold, root, rootMargin, triggerOnce } = options
+
   const [entry, setEntry] = useState<IntersectionObserverEntry>()
-  const frozen = entry?.isIntersecting && freezeOnceVisible
+  const frozen = entry?.isIntersecting && triggerOnce
 
   const updateEntry = ([entry]: IntersectionObserverEntry[]): void => {
     setEntry(entry)
   }
 
   useEffect(() => {
-    const node = elementRef?.current
+    const node = ref?.current
     const hasIOSupport = !!window.IntersectionObserver
 
     if (!hasIOSupport || frozen || !node) return
@@ -51,38 +55,33 @@ export function useIntersectionObserver(
     observer.observe(node)
 
     return () => observer.disconnect()
-  }, [elementRef?.current, JSON.stringify(threshold), root, rootMargin, frozen])
+  }, [ref?.current, JSON.stringify(threshold), root, rootMargin, frozen])
   return entry
 }
 ```
 
 #### Usage
 
-```
-import { useRef, useState } from 'react'
-import classnames from 'classnames'
+#### **`ImageComponent.tsx`**
+
+```tsx
+import { useRef } from 'react'
 
 import { useIntersectionObserver } from './hooks'
-
-interface IImage {
-  albumId: number
-  id: number
-  title: string
-  url: string
-  thumbnailUrl: string
-}
+import { IImage } from './App'
 
 export const ImageComponent = (props: IImage) => {
   const ref = useRef<HTMLDivElement | null>(null)
-  const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
-  const entry = useIntersectionObserver(ref, {})
+  const entry = useIntersectionObserver({
+    ref,
+    options: {
+      threshold: 0.25,
+      triggerOnce: true
+    }
+  })
 
   const isVisible = !!entry?.isIntersecting
-
-  const handleOnLoad = () => {
-    setIsLoaded(true)
-  }
 
   return (
     <div
@@ -95,21 +94,11 @@ export const ImageComponent = (props: IImage) => {
     >
       {isVisible ? (
         <>
-          <img
-            className={classnames('image', 'thumb', {
-              ['isLoaded']: !!isLoaded
-            })}
-            src={props?.url}
-          />
-          <img
-            className={classnames('image', {
-              ['isLoaded']: !!isLoaded
-            })}
-            src={props?.url}
-            onLoad={handleOnLoad}
-          />
+          <img className='image isLoaded' src={props?.url} />
         </>
-      ) : null}
+      ) : (
+        <img className='image thumb' src={props?.url} />
+      )}
     </div>
   )
 }
