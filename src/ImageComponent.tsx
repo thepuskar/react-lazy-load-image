@@ -1,16 +1,18 @@
-import { useRef } from 'react'
+import { useRef, CSSProperties } from 'react'
 
-import { useIntersectionObserver } from './hooks'
+import { useIntersectionObserver, useImageOnLoad } from './hooks'
 import { IImage } from './interface'
 
 export const ImageComponent = (props: IImage) => {
   const ref = useRef<HTMLDivElement | null>(null)
+  const { handleImageOnLoad, thumbStyle, fullImageStyle, isLoaded } =
+    useImageOnLoad()
 
   const entry = useIntersectionObserver({
     ref,
     options: {
-      threshold: 0,
-      triggerOnce: true
+      threshold: 0.1,
+      triggerOnce: false
     }
   })
 
@@ -21,7 +23,15 @@ export const ImageComponent = (props: IImage) => {
       {isVisible ? (
         <>
           <img
-            className='gallery-item-image gallery-item-image-isLoaded'
+            style={{ ...thumbStyle }}
+            className='gallery-item-image'
+            src={props?.previewURL}
+          />
+
+          <img
+            onLoad={handleImageOnLoad}
+            style={{ ...fullImageStyle }}
+            className='gallery-item-image'
             src={props?.largeImageURL}
           />
         </>

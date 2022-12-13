@@ -12,9 +12,13 @@ function App() {
 
   return (
     <div className='container'>
-      <h1 className='heading'>
-        Image Gallery with CSS Grid <span>& Flexbox Fallback</span>
-      </h1>
+      <div className='text'>
+        <h1 className='heading'>Image Gallery</h1>
+        <p className='info'>
+          Created a simple image gallery using lazy-loading Intersection
+          Observer API.
+        </p>
+      </div>
 
       {loading ? (
         <p>Loading...</p>
