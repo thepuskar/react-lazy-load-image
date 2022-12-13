@@ -1,8 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:500);
-
-:root {
-  font-size: 10px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
 *,
 *::before,
@@ -11,34 +7,44 @@
 }
 
 body {
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
   min-height: 100vh;
   background-color: #fafafa;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
   max-width: 100rem;
   margin: 0 auto;
-  padding: 0 2rem 2rem;
+  padding: 2rem;
 
-  .heading {
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-size: 4rem;
-    font-weight: 500;
-    line-height: 1.5;
-    text-align: center;
-    padding: 3.5rem 0;
-    color: #1a1a1a;
-
-    span {
-      display: block;
+  .text {
+    margin-bottom: 2rem;
+    .heading {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin: 0;
+      text-align: center;
+      color: #1a1a1a;
+      line-height: 1.5;
+    }
+    .info {
+      font-weight: 400;
+      text-align: center;
+      color: #1a1a1a;
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.5;
     }
   }
 
   .gallery {
     display: flex;
     flex-wrap: wrap;
-    /* Compensate for excess margin on outer gallery flex items */
     margin: -1rem -1rem;
+    padding: 0 2rem;
 
     &-item {
       flex: 1 0 24rem;
@@ -46,20 +52,21 @@ body {
       box-shadow: 0.3rem 0.4rem 0.4rem rgba(0, 0, 0, 0.4);
       overflow: hidden;
       background-color: #ccc;
+      position: relative;
+      height: 284px;
+      border-radius: 3px;
 
       &-image {
         display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
 
-        &-isLoaded {
-          transition: opacity 1s ease-out;
-          opacity: 1;
-        }
         &:hover {
-          transition: transform 400ms ease-out;
+          transition: transform 500ms ease-out !important;
           transform: scale(1.15);
         }
       }
