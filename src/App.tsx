@@ -1,33 +1,31 @@
 import { useFetch } from './hooks'
 
 import { ImageComponent } from './ImageComponent'
+import { IPexelsResponse, IImage } from './interface'
 
-export interface IImage {
-  albumId: number
-  id: number
-  title: string
-  url: string
-  thumbnailUrl: string
-}
-const url = 'https://jsonplaceholder.typicode.com/photos?_start=0&_limit=10'
+const url = `https://pixabay.com/api/?key=${
+  import.meta.env.VITE_PIXABAY_API_KEY
+}&q=yellow+flowers&image_type=photo&pretty=true`
 
 function App() {
-  const { data, error, loading } = useFetch<IImage[]>(url)
+  const { data, error, loading } = useFetch<IPexelsResponse>(url)
 
   return (
-    <div className='App'>
-      <h3 className='heading'>Image Lazy Loading</h3>
+    <div className='container'>
+      <h1 className='heading'>
+        Image Gallery with CSS Grid <span>& Flexbox Fallback</span>
+      </h1>
 
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
         <p>Errro</p>
       ) : (
-        <>
-          {data?.map((image: IImage, i) => (
-            <ImageComponent key={image.id + i} {...image} />
+        <div className='gallery'>
+          {data?.hits?.map((image: IImage) => (
+            <ImageComponent key={image?.id} {...image} />
           ))}
-        </>
+        </div>
       )}
     </div>
   )

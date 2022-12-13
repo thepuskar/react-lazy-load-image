@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 
 import { useIntersectionObserver } from './hooks'
-import { IImage } from './App'
+import { IImage } from './interface'
 
 export const ImageComponent = (props: IImage) => {
   const ref = useRef<HTMLDivElement | null>(null)
@@ -9,7 +9,7 @@ export const ImageComponent = (props: IImage) => {
   const entry = useIntersectionObserver({
     ref,
     options: {
-      threshold: 0.25,
+      threshold: 0,
       triggerOnce: true
     }
   })
@@ -17,21 +17,15 @@ export const ImageComponent = (props: IImage) => {
   const isVisible = !!entry?.isIntersecting
 
   return (
-    <div
-      className='image-container'
-      ref={ref}
-      style={{
-        paddingBottom: `${(3024 / 4032) * 100}%`,
-        width: '100%'
-      }}
-    >
+    <div className='image-container gallery-item' ref={ref}>
       {isVisible ? (
         <>
-          <img className='image isLoaded' src={props?.url} />
+          <img
+            className='gallery-item-image gallery-item-image-isLoaded'
+            src={props?.largeImageURL}
+          />
         </>
-      ) : (
-        <img className='image thumb' src={props?.url} />
-      )}
+      ) : null}
     </div>
   )
 }
