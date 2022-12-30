@@ -5,8 +5,7 @@ import { IImage } from './interface'
 
 export const ImageComponent = (props: IImage) => {
   const ref = useRef<HTMLDivElement | null>(null)
-  const { handleImageOnLoad, thumbStyle, fullImageStyle, isLoaded } =
-    useImageOnLoad()
+  const { handleImageOnLoad, thumbStyle, fullImageStyle } = useImageOnLoad()
 
   const entry = useIntersectionObserver({
     ref,

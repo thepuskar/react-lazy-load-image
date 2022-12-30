@@ -1,11 +1,12 @@
 import { useFetch } from './hooks'
 
 import { ImageComponent } from './ImageComponent'
+import { ProgressiveImage } from './components'
 import { IPexelsResponse, IImage } from './interface'
 
-const url = `https://pixabay.com/api/?key=${
-  import.meta.env.VITE_PIXABAY_API_KEY
-}&q=yellow+flowers&image_type=photo&pretty=true`
+const API_KEY =
+  import.meta.env.VITE_PIXABAY_API_KEY ?? '21514251-1e67eaf620a3a4ead3f537b34'
+const url = `https://pixabay.com/api/?key=${API_KEY}&q=landscape&image_type=photo&pretty=true&per_page=10&page=1`
 
 function App() {
   const { data, error, loading } = useFetch<IPexelsResponse>(url)
@@ -27,7 +28,13 @@ function App() {
       ) : (
         <div className='gallery'>
           {data?.hits?.map((image: IImage) => (
-            <ImageComponent key={image?.id} {...image} />
+            <div className='image-container gallery-item' key={image?.id}>
+              <ProgressiveImage
+                className='gallery-item-image'
+                lowQualitySrc={image?.previewURL}
+                highQualitySrc={image?.largeImageURL}
+              />
+            </div>
           ))}
         </div>
       )}
