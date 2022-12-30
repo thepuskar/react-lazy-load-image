@@ -1,8 +1,31 @@
 {
-  "name": "lazy-load-img",
+  "name": "react-lazy-load-image",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "React Component and custom to lazy load images and other components/elements. using Intersection Observer API natively present in the browser.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thepuskar/react-lazy-load-image.git"
+  },
+  "author": {
+    "name": "Puskar Adhikari",
+    "email": "puskar.ad@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thepuskar/react-lazy-load-image/issues"
+  },
+  "homepage": "https://github.com/thepuskar/react-lazy-load-image#readme",
+  "keywords": [
+    "react",
+    "react-component",
+    "lazyload",
+    "lazyloading",
+    "lazy-loading",
+    "lazyload-images",
+    "IntersectionObserver"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

@@ -1,4 +1,5 @@
-import { RefObject, useEffect, useState } from 'react'
+import { RefObject, useState } from 'react'
+import { useIsomorphicEffect } from './useIsomorphicEffect'
 
 const DEFAULT_ROOT_MARGIN = '0px'
 const DEFAULT_THRESHOLD = [0]
@@ -46,10 +47,9 @@ interface IntersectionObserverOptions {
 }
 
 /**
- * It returns an IntersectionObserverEntry object if the element is visible in the viewport, otherwise
- * it returns undefined.
- * @param elementRef - RefObject<Element>
- * @param {Args}  - elementRef - a ref to the element you want to observe
+ * It returns an IntersectionObserverEntry object if the element is in the viewport, otherwise it
+ * returns undefined.
+ * @param {IIntersectionObserverProperties}  - IIntersectionObserverProperties
  * @returns The entry is being returned.
  */
 export function useIntersectionObserver({
@@ -70,7 +70,7 @@ export function useIntersectionObserver({
     setEntry(entry)
   }
 
-  useEffect(() => {
+  useIsomorphicEffect(() => {
     const node = ref?.current
     const hasIOSupport = !!window.IntersectionObserver
 

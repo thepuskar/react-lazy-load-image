@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, RefObject } from 'react'
+import { useState, useRef, RefObject } from 'react'
 import 'intersection-observer'
+import { useIsomorphicEffect } from './useIsomorphicEffect'
 
 export const useProgressiveImage = (
   lowQualitySrc: string,
@@ -8,7 +9,7 @@ export const useProgressiveImage = (
   const [src, setSrc] = useState<string>(lowQualitySrc)
   const observerRef = useRef<HTMLImageElement>(null)
 
-  useEffect(() => {
+  useIsomorphicEffect(() => {
     setSrc(lowQualitySrc)
     const observer = new IntersectionObserver(
       (entries) => {
